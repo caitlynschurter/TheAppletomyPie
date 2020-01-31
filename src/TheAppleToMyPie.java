@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 
 public class TheAppleToMyPie {
 	JFrame frame;
-	static final int _width = 600;
-	static final int _height = 800;
+	static final int width = 600;
+	static final int height = 800;
 	
 	GamePanel gamePanel;
 
@@ -21,10 +21,10 @@ public class TheAppleToMyPie {
 	void setup() {
 		frame.add(gamePanel);
 		frame.addKeyListener(gamePanel);
-		frame.getContentPane().setPreferredSize(new Dimension(_width, _height));
+		frame.getContentPane().setPreferredSize(new Dimension(width, height));
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(_width, _height);
+		frame.setSize(width, height);
 		frame.pack();
 		
 		gamePanel.startGame();

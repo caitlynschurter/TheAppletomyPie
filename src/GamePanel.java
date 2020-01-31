@@ -23,15 +23,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFontSpace;
 
 	Font gameOverFont;
-	Font gameOverFontKills;
+	Font gameOverFontScore;
 	Font gameOverFontRestart;
+
+	Basket basket;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
-		
-		titleFont = new Font("Arial", Font.PLAIN, 48);
-		titleFontEnter = new Font("Arial", Font.PLAIN, 36);
-		titleFontSpace = new Font("Arial", Font.PLAIN, 36);
+
+		titleFont = new Font("French Script MT", Font.PLAIN, 72);
+		titleFontEnter = new Font("Freestyle Script", Font.PLAIN, 48);
+		titleFontSpace = new Font("Freestyle Script", Font.PLAIN, 48);
+
+		gameOverFont = new Font("Freestyle Script", Font.PLAIN, 60);
+		gameOverFontScore = new Font("Freestyle Script", Font.PLAIN, 60);
+		gameOverFontRestart = new Font("Freestyle Script", Font.PLAIN, 48);
+
+		basket = new Basket(250, 700, 50, 50);
 	}
 
 	void startGame() {
@@ -49,20 +57,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillRect(0, 0, TheAppleToMyPie._width, TheAppleToMyPie._height);
+		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
+		int sw = g.getFontMetrics().stringWidth("The Apple To My Pie");
+		int sx = TheAppleToMyPie.width /2 - sw/2;
+		g.drawString("The Apple To My Pie", sx, 150);
+		g.setFont(titleFontEnter);
+		sw = g.getFontMetrics().stringWidth("Press ENTER to Start!");
+		sx = TheAppleToMyPie.width /2 - sw/2;
+		g.drawString("Press ENTER to Start!", sx, 400);
+		g.setFont(titleFontSpace);
+		sw = g.getFontMetrics().stringWidth("Press SPACE for Instructions");
+		sx = TheAppleToMyPie.width /2 - sw/2;
+		g.drawString("Press SPACE for Instructions", sx, 500);
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, TheAppleToMyPie._width, TheAppleToMyPie._height);
+		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
 
+		basket.update();
+		basket.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
 		g.setColor(Color.PINK);
-		g.fillRect(0, 0, TheAppleToMyPie._width, TheAppleToMyPie._height);
-
+		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		g.setColor(Color.black);
+		g.setFont(gameOverFont);
+		g.drawString("Game Over", 220, 150);
+		g.setFont(gameOverFontScore);
+		g.drawString("You Completed " + " Recipes", 100, 200);
+		g.setFont(gameOverFontRestart);
+		g.drawString("Press ENTER to start again!", 100, 500);
 	}
 
 	@Override
@@ -82,18 +110,36 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// System.out.println("keyPressed");
+		// System.out.println("hi");
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
 			if (currentState == END_STATE) {
-				//use for later for Game Over
+				basket = new Basket(250, 700, 50, 50);
+				System.out.println("hello");
 			}
-
 			currentState++;
 		}
+
 		if (currentState > END_STATE) {
 			currentState = MENU_STATE;
 		}
+
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			basket.down();
+		}
+
+		else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			basket.up();
+		}
+
+		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			basket.right();
+		}
+
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			basket.left();
+		}
+
 	}
 
 	@Override

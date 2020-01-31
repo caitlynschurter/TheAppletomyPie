@@ -7,6 +7,8 @@ public class GameObject {
 	int _y;
 	int _width;
 	int _height;
+	
+	boolean isCollected;
 
 	GameObject(int x, int y, int width, int height) {
 		_x = x;
@@ -19,6 +21,6 @@ public class GameObject {
 	}
 
 	public void draw(Graphics g) {
-		g.fillRect(_x, _y, 120, 80);
+		
 	}
 }
