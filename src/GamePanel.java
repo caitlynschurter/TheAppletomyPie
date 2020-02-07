@@ -27,11 +27,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font gameOverFontRestart;
 
 	Basket basket;
+	
+	ObjectManager manager;
 
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
 
-		titleFont = new Font("French Script MT", Font.PLAIN, 72);
+		titleFont = new Font("Freestyle Script", Font.PLAIN, 72);
 		titleFontEnter = new Font("Freestyle Script", Font.PLAIN, 48);
 		titleFontSpace = new Font("Freestyle Script", Font.PLAIN, 48);
 
@@ -40,6 +42,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFontRestart = new Font("Freestyle Script", Font.PLAIN, 48);
 
 		basket = new Basket(250, 700, 50, 50);
+		
+		manager = new ObjectManager(basket);
 	}
 
 	void startGame() {
@@ -50,6 +54,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+		manager.update();
+		manager.manageIngredients();
+		manager.purgeObjects();
 	}
 
 	void updateEndState() {
@@ -78,7 +85,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
 
 		basket.update();
-		basket.draw(g);
+		manager.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
