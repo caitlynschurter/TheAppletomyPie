@@ -1,5 +1,4 @@
-
-//Evil Lily's password is JesusChrist123!
+//Evil Lily's password is ChristJesus321?
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -12,11 +11,11 @@ public class Apple extends GameObject {
 
 	public void update() {
 		super.update();
-		_y++;
+		_y=_y+2;
 	}
 
 	public void draw(Graphics g) {
-		System.out.println("hi :)");
+		//System.out.println("hi :)");
 		g.setColor(Color.RED);
 		g.drawRect(_x, _y, _width, _height);
 	}

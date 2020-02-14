@@ -1,10 +1,12 @@
 
-//Lily's password is JesusChrist123!
+//Lily's password is ChristJesus321?
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Basket extends GameObject {
 
+	boolean rightPressed = false;
+	boolean leftPressed = false;
 	int speed;
 
 	Basket(int x, int y, int width, int height) {
@@ -13,6 +15,15 @@ public class Basket extends GameObject {
 	}
 
 	public void update() {
+		if(leftPressed == true) {
+			left();
+		}
+		
+		if(rightPressed == true) {
+			right();
+		}
+		
+		super.update();
 	}
 
 	public void draw(Graphics g) {
@@ -33,20 +44,6 @@ public class Basket extends GameObject {
 		_x -= speed;
 		if (_x < 0) {
 			_x = 0;
-		}
-	}
-
-	public void down() {
-		_y += speed;
-		if (_y > TheAppleToMyPie.height - _height) {
-			_y = TheAppleToMyPie.height - _height;
-		}
-	}
-
-	public void up() {
-		_y -= speed;
-		if (_y < 0) {
-			_y = 0;
 		}
 	}
 	

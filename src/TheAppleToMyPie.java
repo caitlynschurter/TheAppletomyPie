@@ -1,4 +1,4 @@
-//Evil Lily's Password: JesusChrist123!
+//Evil Lily's Password: ChristJesus321?
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
@@ -27,10 +27,6 @@ public class TheAppleToMyPie {
 		frame.setSize(width, height);
 		frame.pack();
 		
-		gamePanel.startGame();
-		
-		
+		gamePanel.startGame();	
 	}
-
-	
 }

@@ -1,5 +1,5 @@
 
-//Evil Lily's Password: JesusChrist123!
+//Evil Lily's Password: ChristJesus321?
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -27,7 +27,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font gameOverFontRestart;
 
 	Basket basket;
-	
+	boolean rightPressed = false;
+	boolean leftPressed = false;
+
 	ObjectManager manager;
 
 	public GamePanel() {
@@ -42,7 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFontRestart = new Font("Freestyle Script", Font.PLAIN, 48);
 
 		basket = new Basket(250, 700, 50, 50);
-		
+
 		manager = new ObjectManager(basket);
 	}
 
@@ -54,6 +56,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+		basket.leftPressed = leftPressed;
+		basket.rightPressed = rightPressed;
 		manager.update();
 		manager.manageIngredients();
 		manager.purgeObjects();
@@ -68,15 +72,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
 		int sw = g.getFontMetrics().stringWidth("The Apple To My Pie");
-		int sx = TheAppleToMyPie.width /2 - sw/2;
+		int sx = TheAppleToMyPie.width / 2 - sw / 2;
 		g.drawString("The Apple To My Pie", sx, 150);
 		g.setFont(titleFontEnter);
 		sw = g.getFontMetrics().stringWidth("Press ENTER to Start!");
-		sx = TheAppleToMyPie.width /2 - sw/2;
+		sx = TheAppleToMyPie.width / 2 - sw / 2;
 		g.drawString("Press ENTER to Start!", sx, 400);
 		g.setFont(titleFontSpace);
 		sw = g.getFontMetrics().stringWidth("Press SPACE for Instructions");
-		sx = TheAppleToMyPie.width /2 - sw/2;
+		sx = TheAppleToMyPie.width / 2 - sw / 2;
 		g.drawString("Press SPACE for Instructions", sx, 500);
 	}
 
@@ -117,41 +121,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// System.out.println("hi");
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		System.out.println("keyPressed");
+		int code = e.getKeyCode();
+		if (code == KeyEvent.VK_ENTER) {
 
 			if (currentState == END_STATE) {
 				basket = new Basket(250, 700, 50, 50);
 				System.out.println("hello");
+				manager = new ObjectManager(basket);
 			}
 			currentState++;
 		}
 
-		if (currentState > END_STATE) {
-			currentState = MENU_STATE;
+		if (currentState == GAME_STATE) {
+			switch (code) {
+			case KeyEvent.VK_LEFT:
+				leftPressed = true;
+				rightPressed = false;
+				break;
+			case KeyEvent.VK_RIGHT:
+				leftPressed = false;
+				rightPressed = true;
+				break;
+			}
 		}
-
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			basket.down();
-		}
-
-		else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			basket.up();
-		}
-
-		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			basket.right();
-		}
-
-		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			basket.left();
-		}
-
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		System.out.println("keyReleased");
+	public void keyReleased(KeyEvent e) {
+		// System.out.println("keyReleased");
+		int code = e.getKeyCode();
+
+		if (currentState == GAME_STATE) {
+			switch (code) {
+			case KeyEvent.VK_LEFT:
+				leftPressed = false;
+				break;
+			case KeyEvent.VK_RIGHT:
+				rightPressed = false;
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -161,6 +171,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// System.out.println("actionPerformed");
 		repaint();
 		switch (currentState) {
 		case MENU_STATE:

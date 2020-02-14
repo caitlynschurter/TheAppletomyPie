@@ -1,5 +1,5 @@
 
-//Evil Lily's password is JesusChrist123!
+//Evil Lily's password is ChristJesus321?
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,10 +17,13 @@ public class ObjectManager {
 		apples = new ArrayList<Apple>();
 		
 		itemTimer = 0;
-		itemSpawnTime = 2000;
+		itemSpawnTime = 5000;
 	}
 
 	void update() {
+		for (Apple a : apples) {
+			a.update();
+		}
 	}
 
 	void draw(Graphics g) {
@@ -28,6 +31,10 @@ public class ObjectManager {
 
 		for (Apple a : apples) {
 			a.draw(g);
+		}
+		
+		for (Basket b : basket) {
+			b.draw(g);
 		}
 	}
 
@@ -49,6 +56,14 @@ public class ObjectManager {
 		for (int i = apples.size() - 1; i >= 0; i--) {
 			if (!apples.get(i).isIntact) {
 				apples.remove(i);
+			}
+		}
+	}
+	
+	void checkCollision() {
+		for (Apple a : apples) {
+			if (_basket.collisionBox.intersects(a.collisionBox)) {
+				_basket.isIntact = false;
 			}
 		}
 	}
