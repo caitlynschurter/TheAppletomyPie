@@ -12,12 +12,25 @@ public class ObjectManager {
 	long itemTimer;
 	int itemSpawnTime;
 
+	int score = 0;
+	int applesCaught = 0;
+	int flourCaught = 0;
+	int eggsCaught = 0;
+
 	ObjectManager(Basket basket) {
 		_basket = basket;
 		apples = new ArrayList<Apple>();
-		
+
 		itemTimer = 0;
 		itemSpawnTime = 5000;
+	}
+
+	public int getScore() {
+		return this.score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	void update() {
@@ -32,10 +45,7 @@ public class ObjectManager {
 		for (Apple a : apples) {
 			a.draw(g);
 		}
-		
-		for (Basket b : basket) {
-			b.draw(g);
-		}
+
 	}
 
 	void addApple(Apple apple) {
@@ -43,9 +53,9 @@ public class ObjectManager {
 	}
 
 	public void manageIngredients() {
-		
+
 		if (System.currentTimeMillis() - itemTimer >= itemSpawnTime) {
-			
+
 			addApple(new Apple(new Random().nextInt(TheAppleToMyPie.width), 0, 50, 50));
 
 			itemTimer = System.currentTimeMillis();
@@ -54,16 +64,19 @@ public class ObjectManager {
 
 	void purgeObjects() {
 		for (int i = apples.size() - 1; i >= 0; i--) {
-			if (!apples.get(i).isIntact) {
+			if (!apples.get(i).isVisible) {
 				apples.remove(i);
 			}
 		}
 	}
-	
+
 	void checkCollision() {
 		for (Apple a : apples) {
 			if (_basket.collisionBox.intersects(a.collisionBox)) {
-				_basket.isIntact = false;
+				// apple has been caught
+				a.isVisible = false;
+				applesCaught++;
+				System.out.println("apple caught: " + applesCaught);
 			}
 		}
 	}

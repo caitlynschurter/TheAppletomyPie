@@ -11,7 +11,7 @@ public class Basket extends GameObject {
 
 	Basket(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 10;
+		speed = 8;
 	}
 
 	public void update() {

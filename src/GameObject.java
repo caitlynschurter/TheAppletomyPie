@@ -10,7 +10,7 @@ public class GameObject {
 	int _height;
 	Rectangle collisionBox;
 
-	boolean isIntact;
+	boolean isVisible;
 
 	GameObject(int x, int y, int width, int height) {
 		_x = x;
@@ -20,7 +20,7 @@ public class GameObject {
 
 		collisionBox = new Rectangle(_x, _y, _width, _height);
 
-		isIntact = true;
+		isVisible = true;
 	}
 
 	public void update() {
