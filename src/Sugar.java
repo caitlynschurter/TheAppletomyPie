@@ -2,11 +2,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Apple extends GameObject {
+public class Sugar extends GameObject {
 
 	int speed;
 	
-	Apple(int x, int y, int width, int height) {
+	Sugar(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		speed = 7;
 	}
@@ -19,7 +19,7 @@ public class Apple extends GameObject {
 
 	public void draw(Graphics g) {
 		//System.out.println("hi :)");
-		g.setColor(Color.RED);
+		g.setColor(Color.WHITE);
 		g.drawRect(_x, _y, _width, _height);
 	}
 }

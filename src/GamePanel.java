@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-	Timer timer;;
+	Timer timer;
 
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
@@ -21,11 +21,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font titleFontEnter;
 	Font titleFontSpace;
-	
+
 	Font scoreFont;
 	Font appleFont;
 	Font flourFont;
-	Font eggFont;
+	Font sugarFont;
 
 	Font gameOverFont;
 	Font gameOverFontScore;
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("Freestyle Script", Font.PLAIN, 72);
 		titleFontEnter = new Font("Freestyle Script", Font.PLAIN, 48);
 		titleFontSpace = new Font("Freestyle Script", Font.PLAIN, 48);
-		
+
 		scoreFont = new Font("Courier New", Font.PLAIN, 28);
 
 		gameOverFont = new Font("Freestyle Script", Font.PLAIN, 60);
@@ -100,15 +100,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.draw(g);
 		drawScoreboard(g);
 	}
-	
+
 	void drawScoreboard(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, TheAppleToMyPie.width, 60);
+
 		g.setFont(scoreFont);
 		g.setColor(Color.BLACK);
-		int sw = g.getFontMetrics().stringWidth("Score: " + manager.score);
+		int scoreWidth = g.getFontMetrics().stringWidth("Score: " + manager.score + " ");
+		g.drawString("Score: " + manager.score, TheAppleToMyPie.width - scoreWidth, 40);
+
+		g.setFont(appleFont);
+		g.setColor(Color.BLACK);
+		g.drawString("" + manager.applesCaught + "/3", 20, 40);
+
+		g.setFont(flourFont);
+		g.setColor(Color.BLACK);
+		g.drawString("" + manager.flourCaught + "/1", 120, 40);
 		
-		g.drawString("Score: " + manager.score, TheAppleToMyPie.width - sw, 40);
+		g.setFont(sugarFont);
+		g.setColor(Color.BLACK);
+		g.drawString("" + manager.sugarCaught + "/2", 220, 40);
 	}
 
 	void drawEndState(Graphics g) {
@@ -140,7 +152,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		//System.out.println("keyPressed");
+		// System.out.println("keyPressed");
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_ENTER) {
 
@@ -185,7 +197,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		//System.out.println("keyTyped");
+		// System.out.println("keyTyped");
 	}
 
 	@Override
