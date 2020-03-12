@@ -13,9 +13,12 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
 
+	public static int counter = 60 * 60;
+
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
+	boolean INST_STATE = false;
 	int currentState = MENU_STATE;
 
 	Font titleFont;
@@ -69,6 +72,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.manageIngredients();
 		manager.purgeObjects();
 		manager.checkCollision();
+
+		counter--;
+
+		if (counter <= 0) {
+			currentState = END_STATE;
+		}
 	}
 
 	void updateEndState() {
@@ -92,6 +101,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press SPACE for Instructions", sx, 500);
 	}
 
+	void drawInstructions() {
+
+	}
+
 	void drawGameState(Graphics g) {
 		g.setColor(Color.CYAN);
 		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
@@ -99,6 +112,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		basket.update();
 		manager.draw(g);
 		drawScoreboard(g);
+		drawTimer(g);
 	}
 
 	void drawScoreboard(Graphics g) {
@@ -117,10 +131,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(flourFont);
 		g.setColor(Color.BLACK);
 		g.drawString("" + manager.flourCaught + "/1", 120, 40);
-		
+
 		g.setFont(sugarFont);
 		g.setColor(Color.BLACK);
 		g.drawString("" + manager.sugarCaught + "/2", 220, 40);
+	}
+
+	void drawTimer(Graphics g) {
+		float timeLeft = (float) counter / 3600;
+		float barWidth = timeLeft * TheAppleToMyPie.width;
+
+		if (timeLeft >= 0.5) {
+			g.setColor(Color.GREEN);
+		}
+
+		else if (timeLeft > 0.25) {
+			g.setColor(Color.YELLOW);
+		}
+
+		else {
+			if ((int) (timeLeft * 100 * 2.5) % 2 == 0) {
+				g.setColor(Color.RED);
+			}
+
+			else {
+				g.setColor(Color.LIGHT_GRAY);
+			}
+		}
+
+		g.fillRect(0, 55, (int) barWidth, 5);
 	}
 
 	void drawEndState(Graphics g) {
@@ -130,7 +169,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(gameOverFont);
 		g.drawString("Game Over", 220, 150);
 		g.setFont(gameOverFontScore);
-		g.drawString("You Completed " + " Recipes", 100, 200);
+		g.drawString("You Completed " + manager.score + " Recipes", 100, 200);
 		g.setFont(gameOverFontRestart);
 		g.drawString("Press ENTER to start again!", 100, 500);
 	}
@@ -158,7 +197,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			if (currentState == END_STATE) {
 				basket = new Basket(250, 700, 50, 50);
-				System.out.println("hello");
+				// System.out.println("hello");
 				manager = new ObjectManager(basket);
 			}
 			currentState++;
@@ -176,8 +215,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				break;
 			}
 		}
-	}
 
+		if (currentState > END_STATE) {
+			currentState = MENU_STATE;
+		}
+	}
+	/*if (currentState == MENU_STATE) {
+	if (code == KeyEvent.VK_SPACE) {
+		if(INST_STATE = false) {
+			INST_STATE = true;
+		}
+		
+		else {
+			INST_STATE = false;
+		}
+		
+	}
+}
+}
+*/
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// System.out.println("keyReleased");

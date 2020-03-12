@@ -20,6 +20,10 @@ public class ObjectManager {
 	int flourCaught = 0;
 	int sugarCaught = 0;
 
+	int maxApples = 3;
+	int maxFlour = 1;
+	int maxSugar = 2;
+
 	ObjectManager(Basket basket) {
 		_basket = basket;
 		apples = new ArrayList<Apple>();
@@ -27,7 +31,7 @@ public class ObjectManager {
 		sugar = new ArrayList<Sugar>();
 
 		itemTimer = 0;
-		itemSpawnTime = 4000;
+		itemSpawnTime = 2000;
 	}
 
 	public int getScore() {
@@ -130,7 +134,7 @@ public class ObjectManager {
 				a.isVisible = false;
 				applesCaught++;
 				System.out.println("apple caught: " + applesCaught);
-				if (applesCaught >= 4) {
+				if (applesCaught > maxApples) {
 					// Play sound effect
 					applesCaught = 0;
 					flourCaught = 0;
@@ -145,7 +149,7 @@ public class ObjectManager {
 				f.isVisible = false;
 				flourCaught++;
 				System.out.println("flour caught: " + flourCaught);
-				if (flourCaught >= 2) {
+				if (flourCaught > maxFlour) {
 					// Play sound effect
 					applesCaught = 0;
 					flourCaught = 0;
@@ -160,13 +164,25 @@ public class ObjectManager {
 				s.isVisible = false;
 				sugarCaught++;
 				System.out.println("sugar caught: " + sugarCaught);
-				if (sugarCaught >= 3) {
+				if (sugarCaught > maxSugar) {
 					// Play sound effect
 					applesCaught = 0;
 					flourCaught = 0;
 					sugarCaught = 0;
 				}
 			}
+		}
+
+		if (applesCaught == maxApples && flourCaught == maxFlour && sugarCaught == maxSugar) {
+			setScore(getScore() + 1);
+			GamePanel.counter += 15 * 60; //20 secs
+			if(GamePanel.counter > 60 * 60) {
+				GamePanel.counter = 60 * 60;
+			}
+			
+			applesCaught = 0;
+			flourCaught = 0;
+			sugarCaught = 0;
 		}
 	}
 }
