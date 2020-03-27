@@ -19,7 +19,8 @@ public class Apple extends GameObject {
 
 	public void draw(Graphics g) {
 		//System.out.println("hi :)");
-		g.setColor(Color.RED);
-		g.drawRect(_x, _y, _width, _height);
+		//g.setColor(Color.RED);
+		//g.drawRect(_x, _y, _width, _height);
+		g.drawImage(GamePanel.apple, _x, _y, _width, _height, null);
 	}
 }

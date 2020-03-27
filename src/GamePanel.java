@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -47,19 +51,45 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	ObjectManager manager;
 
+	public static BufferedImage titleBackground;
+	public static BufferedImage inst;
+	public static BufferedImage background;
+	public static BufferedImage end;
+	public static BufferedImage apple;
+	public static BufferedImage flour;
+	public static BufferedImage sugar;
+	public static BufferedImage emptyTin;
+	public static BufferedImage pieTin;
+
 	public GamePanel() {
 		timer = new Timer(1000 / 60, this);
+
+		try {
+			titleBackground = ImageIO.read(this.getClass().getResourceAsStream("LOAP Background - Title.png"));
+			background = ImageIO.read(this.getClass().getResourceAsStream("LOAP Background - Game.png"));
+			end = ImageIO.read(this.getClass().getResourceAsStream("LOAP Background - End.png"));
+			inst = ImageIO.read(this.getClass().getResourceAsStream("LOAP Background - Inst.png"));
+			apple = ImageIO.read(this.getClass().getResourceAsStream("LOAP-Apple.png"));
+			flour = ImageIO.read(this.getClass().getResourceAsStream("LOAP-FLOUR.png"));
+			sugar = ImageIO.read(this.getClass().getResourceAsStream("LOAP-Sugar.png"));
+			emptyTin = ImageIO.read(this.getClass().getResourceAsStream("LOAP-EmptyTin.png"));
+			pieTin = ImageIO.read(this.getClass().getResourceAsStream("LOAP-PieTin.png"));
+		}
+
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		titleFont = new Font("Freestyle Script", Font.PLAIN, 72);
 		titleFontEnter = new Font("Freestyle Script", Font.PLAIN, 48);
 		titleFontSpace = new Font("Freestyle Script", Font.PLAIN, 48);
 
-		instFontTOP = new Font("Courier NEw", Font.BOLD, 24);
-		instFontMID = new Font("Courier NEw", Font.BOLD, 24);
-		instFontBOTTOM = new Font("Courier NEw", Font.BOLD, 24);
-		instFontTOP2 = new Font("Courier NEw", Font.BOLD, 24);
-		instFontMID2 = new Font("Courier NEw", Font.BOLD, 24);
-		instFontBOTTOM2 = new Font("Courier NEw", Font.BOLD, 24);
+		instFontTOP = new Font("Courier New", Font.BOLD, 24);
+		instFontMID = new Font("Courier New", Font.BOLD, 24);
+		instFontBOTTOM = new Font("Courier New", Font.BOLD, 24);
+		instFontTOP2 = new Font("Courier New", Font.BOLD, 24);
+		instFontMID2 = new Font("Courier New", Font.BOLD, 24);
+		instFontBOTTOM2 = new Font("Courier New", Font.BOLD, 24);
 
 		scoreFont = new Font("Courier New", Font.PLAIN, 28);
 
@@ -67,7 +97,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFontScore = new Font("Freestyle Script", Font.PLAIN, 60);
 		gameOverFontRestart = new Font("Freestyle Script", Font.PLAIN, 48);
 
-		basket = new Basket(250, 700, 50, 50);
+		basket = new Basket(250, 700, 100, 30);
 
 		manager = new ObjectManager(basket);
 	}
@@ -98,74 +128,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.BLUE);
+		// g.setColor(Color.BLUE);
+
 		if (INST_STATE == true) {
 			drawInstructions(g);
 		}
 
 		else {
-			g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
-			g.setColor(Color.WHITE);
-			g.setFont(titleFont);
-			int sw = g.getFontMetrics().stringWidth("The Apple To My Pie");
-			int sx = TheAppleToMyPie.width / 2 - sw / 2;
-			g.drawString("The Apple To My Pie", sx, 150);
-			g.setFont(titleFontEnter);
-			sw = g.getFontMetrics().stringWidth("Press ENTER to Start!");
-			sx = TheAppleToMyPie.width / 2 - sw / 2;
-			g.drawString("Press ENTER to Start!", sx, 400);
-			g.setFont(titleFontSpace);
-			sw = g.getFontMetrics().stringWidth("Press SPACE for Instructions");
-			sx = TheAppleToMyPie.width / 2 - sw / 2;
-			g.drawString("Press SPACE for Instructions", sx, 500);
+			g.drawImage(titleBackground, 0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height, null);
+			/*
+			 * g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+			 * g.setColor(Color.WHITE); g.setFont(titleFont); int sw =
+			 * g.getFontMetrics().stringWidth("The Apple To My Pie"); int sx =
+			 * TheAppleToMyPie.width / 2 - sw / 2; g.drawString("The Apple To My Pie", sx,
+			 * 150); g.setFont(titleFontEnter); sw =
+			 * g.getFontMetrics().stringWidth("Press ENTER to Start!"); sx =
+			 * TheAppleToMyPie.width / 2 - sw / 2; g.drawString("Press ENTER to Start!", sx,
+			 * 400); g.setFont(titleFontSpace); sw =
+			 * g.getFontMetrics().stringWidth("Press SPACE for Instructions"); sx =
+			 * TheAppleToMyPie.width / 2 - sw / 2;
+			 * g.drawString("Press SPACE for Instructions", sx, 500);
+			 */
 		}
 	}
 
 	void drawInstructions(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
-		g.setColor(Color.BLACK);
-
-		// Use the LEFT and RIGHT
-		g.setFont(instFontTOP);
-		int sw = g.getFontMetrics().stringWidth("Use the LEFT and RIGHT");
-		int sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("Use the LEFT and RIGHT", sx, 100);
-
-		// arrow keys to catch ingredients
-		g.setFont(instFontTOP2);
-		sw = g.getFontMetrics().stringWidth("arrow keys to catch ingredients");
-		sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("arrow keys to catch ingredients", sx, 140);
-
-		// Finish the recipes,
-		g.setFont(instFontMID);
-		sw = g.getFontMetrics().stringWidth("Finish the recipes,");
-		sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("Finish the recipes,", sx, 200);
-
-		// but don't overstock on ingredients
-		g.setFont(instFontMID2);
-		sw = g.getFontMetrics().stringWidth("but don't overstock on ingredients");
-		sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("but don't overstock on ingredients", sx, 240);
-
-		// You have 60 seconds, but you can
-		g.setFont(instFontBOTTOM);
-		sw = g.getFontMetrics().stringWidth("You have 60 seconds, but you can");
-		sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("You have 60 seconds, but you can", sx, 300);
-
-		// earn back time by completing recipes
-		g.setFont(instFontBOTTOM2);
-		sw = g.getFontMetrics().stringWidth("earn back time by completeing recipes");
-		sx = TheAppleToMyPie.width / 2 - sw / 2;
-		g.drawString("earn back time by completeing recipes", sx, 340);
+		// g.setColor(Color.WHITE);
+		// g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		g.drawImage(inst, 0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height, null);
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		// g.setColor(Color.CYAN);
+		// g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		g.drawImage(background, 0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height, null);
 
 		basket.update();
 		manager.draw(g);
@@ -193,6 +189,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(sugarFont);
 		g.setColor(Color.BLACK);
 		g.drawString("" + manager.sugarCaught + "/2", 220, 40);
+
+		g.drawImage(apple, 70, 15, 30, 30, null);
+		g.drawImage(flour, 170, 15, 30, 30, null);
+		g.drawImage(sugar, 270, 15, 30, 30, null);
 	}
 
 	void drawTimer(Graphics g) {
@@ -220,16 +220,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 55, (int) barWidth, 5);
 	}
 
+	//left off here 3/26/20
+	void drawPie(Graphics g) {
+		g.drawImage(GamePanel.pieTin, 0, 0, basket._width, basket._height, null);
+	}
+
 	void drawEndState(Graphics g) {
-		g.setColor(Color.PINK);
-		g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		// g.setColor(Color.PINK);
+		// g.fillRect(0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height);
+		g.drawImage(end, 0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height, null);
 		g.setColor(Color.black);
-		g.setFont(gameOverFont);
-		g.drawString("Game Over", 220, 150);
 		g.setFont(gameOverFontScore);
-		g.drawString("You Completed " + manager.score + " Recipes", 100, 200);
-		g.setFont(gameOverFontRestart);
-		g.drawString("Press ENTER to start again!", 100, 500);
+		g.drawString("" + manager.score, 300, 400);
+		/*
+		 * g.drawImage(background, 0, 0, TheAppleToMyPie.width, TheAppleToMyPie.height,
+		 * null); g.setColor(Color.black); g.setFont(gameOverFont);
+		 * g.drawString("Game Over", 220, 150); g.setFont(gameOverFontScore);
+		 * g.drawString("You Completed " + manager.score + " Recipes", 100, 200);
+		 * g.setFont(gameOverFontRestart); g.drawString("Press ENTER to start again!",
+		 * 100, 500);
+		 */
 	}
 
 	@Override

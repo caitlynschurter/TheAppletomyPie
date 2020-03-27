@@ -88,18 +88,18 @@ public class ObjectManager {
 
 		if (System.currentTimeMillis() - itemTimer >= itemSpawnTime) {
 
-			int what = r.nextInt(3);
+			int what = r.nextInt(4);
 
-			if (what == 0) {
-				addApple(new Apple(r.nextInt(TheAppleToMyPie.width), 0, 50, 50));
+			if (what == 0 || what == 1) {
+				addApple(new Apple(r.nextInt(TheAppleToMyPie.width), 0, 70, 70));
 			}
 
-			else if (what == 1) {
-				addFlour(new Flour(r.nextInt(TheAppleToMyPie.width), 0, 50, 50));
+			else if (what == 2) {
+				addFlour(new Flour(r.nextInt(TheAppleToMyPie.width), 0, 75, 75));
 			}
 
 			else {
-				addSugar(new Sugar(r.nextInt(TheAppleToMyPie.width), 0, 50, 50));
+				addSugar(new Sugar(r.nextInt(TheAppleToMyPie.width), 0, 75, 75));
 			}
 
 			itemTimer = System.currentTimeMillis();
@@ -175,7 +175,7 @@ public class ObjectManager {
 
 		if (applesCaught == maxApples && flourCaught == maxFlour && sugarCaught == maxSugar) {
 			setScore(getScore() + 1);
-			GamePanel.counter += 15 * 60; //20 secs
+			GamePanel.counter += 10 * 60; //20 secs
 			if(GamePanel.counter > 60 * 60) {
 				GamePanel.counter = 60 * 60;
 			}
@@ -184,5 +184,6 @@ public class ObjectManager {
 			flourCaught = 0;
 			sugarCaught = 0;
 		}
+		
 	}
 }

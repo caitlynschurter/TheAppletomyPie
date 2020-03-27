@@ -27,8 +27,10 @@ public class Basket extends GameObject {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(_x, _y, _width, _height);
+		//g.setColor(Color.DARK_GRAY);
+		//g.fillRect(_x, _y, _width, _height);
+
+		g.drawImage(GamePanel.emptyTin, _x, _y, _width, _height, null);
 	}
 
 	public void right() {

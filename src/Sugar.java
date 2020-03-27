@@ -19,7 +19,8 @@ public class Sugar extends GameObject {
 
 	public void draw(Graphics g) {
 		//System.out.println("hi :)");
-		g.setColor(Color.WHITE);
-		g.drawRect(_x, _y, _width, _height);
+		//g.setColor(Color.WHITE);
+		//g.drawRect(_x, _y, _width, _height);
+		g.drawImage(GamePanel.sugar, _x, _y, _width, _height, null);
 	}
 }

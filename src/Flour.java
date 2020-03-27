@@ -17,7 +17,8 @@ public class Flour extends GameObject{
 
 	public void draw(Graphics g) {
 		// System.out.println("hi :)");
-		g.setColor(Color.GRAY);
-		g.drawRect(_x, _y, _width, _height);
+		//g.setColor(Color.GRAY);
+		//g.drawRect(_x, _y, _width, _height);
+		g.drawImage(GamePanel.flour, _x, _y, _width, _height, null);
 	}
 }

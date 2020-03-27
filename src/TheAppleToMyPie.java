@@ -1,3 +1,4 @@
+
 //Evil Lily's Password: ChristJesus321?
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -6,7 +7,7 @@ public class TheAppleToMyPie {
 	JFrame frame;
 	static final int width = 600;
 	static final int height = 800;
-	
+
 	GamePanel gamePanel;
 
 	public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class TheAppleToMyPie {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(width, height);
 		frame.pack();
-		
-		gamePanel.startGame();	
+
+		gamePanel.startGame();
 	}
 }
