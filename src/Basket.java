@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Basket extends GameObject {
-
+	static final int WIDTH = 100;
+	static final int HEIGHT = 30;
 	boolean rightPressed = false;
 	boolean leftPressed = false;
 	int speed;

@@ -24,6 +24,8 @@ public class ObjectManager {
 	int maxFlour = 1;
 	int maxSugar = 2;
 
+	Pie _pie;
+
 	ObjectManager(Basket basket) {
 		_basket = basket;
 		apples = new ArrayList<Apple>();
@@ -54,6 +56,10 @@ public class ObjectManager {
 		for (Sugar s : sugar) {
 			s.update();
 		}
+
+		if (_pie != null) {
+			_pie.update();
+		}
 	}
 
 	void draw(Graphics g) {
@@ -70,18 +76,26 @@ public class ObjectManager {
 		for (Sugar s : sugar) {
 			s.draw(g);
 		}
+
+		if (_pie != null) {
+			_pie.draw(g);
+		}
 	}
 
 	void addApple(Apple apple) {
 		apples.add(apple);
 	}
 
-	void addFlour(Flour _flour) {
-		flour.add(_flour);
+	void addFlour(Flour flour) {
+		this.flour.add(flour);
 	}
 
-	void addSugar(Sugar _sugar) {
-		sugar.add(_sugar);
+	void addSugar(Sugar sugar) {
+		this.sugar.add(sugar);
+	}
+
+	void addPie(Pie pie) {
+		this._pie = pie;
 	}
 
 	public void manageIngredients() {
@@ -91,15 +105,15 @@ public class ObjectManager {
 			int what = r.nextInt(4);
 
 			if (what == 0 || what == 1) {
-				addApple(new Apple(r.nextInt(TheAppleToMyPie.width), 0, 70, 70));
+				addApple(new Apple(r.nextInt(TheAppleToMyPie.width-75), 0, 70, 70));
 			}
 
 			else if (what == 2) {
-				addFlour(new Flour(r.nextInt(TheAppleToMyPie.width), 0, 75, 75));
+				addFlour(new Flour(r.nextInt(TheAppleToMyPie.width-75), 0, 75, 75));
 			}
 
 			else {
-				addSugar(new Sugar(r.nextInt(TheAppleToMyPie.width), 0, 75, 75));
+				addSugar(new Sugar(r.nextInt(TheAppleToMyPie.width-75), 0, 75, 75));
 			}
 
 			itemTimer = System.currentTimeMillis();
@@ -125,6 +139,10 @@ public class ObjectManager {
 			}
 		}
 
+		if (_pie != null && !_pie.isVisible) {
+			_pie = null;
+		}
+
 	}
 
 	void checkCollision() {
@@ -136,6 +154,7 @@ public class ObjectManager {
 				System.out.println("apple caught: " + applesCaught);
 				if (applesCaught > maxApples) {
 					// Play sound effect
+					GamePanel.counter -= 10 * 60; // 10 secs
 					applesCaught = 0;
 					flourCaught = 0;
 					sugarCaught = 0;
@@ -151,6 +170,7 @@ public class ObjectManager {
 				System.out.println("flour caught: " + flourCaught);
 				if (flourCaught > maxFlour) {
 					// Play sound effect
+					GamePanel.counter -= 10 * 60; // 10 secs
 					applesCaught = 0;
 					flourCaught = 0;
 					sugarCaught = 0;
@@ -166,6 +186,7 @@ public class ObjectManager {
 				System.out.println("sugar caught: " + sugarCaught);
 				if (sugarCaught > maxSugar) {
 					// Play sound effect
+					GamePanel.counter -= 10 * 60; // 10 secs
 					applesCaught = 0;
 					flourCaught = 0;
 					sugarCaught = 0;
@@ -175,15 +196,16 @@ public class ObjectManager {
 
 		if (applesCaught == maxApples && flourCaught == maxFlour && sugarCaught == maxSugar) {
 			setScore(getScore() + 1);
-			GamePanel.counter += 10 * 60; //20 secs
-			if(GamePanel.counter > 60 * 60) {
+			addPie(new Pie(_basket._x, _basket._y - 50, _basket._width, 80));
+			GamePanel.counter += 10 * 60; // 10 secs
+			if (GamePanel.counter > 60 * 60) {
 				GamePanel.counter = 60 * 60;
 			}
-			
+
 			applesCaught = 0;
 			flourCaught = 0;
 			sugarCaught = 0;
 		}
-		
+
 	}
 }

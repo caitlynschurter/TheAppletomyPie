@@ -16,8 +16,8 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
-
-	public static int counter = 60 * 60;
+	final static int GAME_TIME = 60 * 60;
+	public static int counter = GAME_TIME;
 
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
@@ -97,12 +97,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFontScore = new Font("Freestyle Script", Font.PLAIN, 60);
 		gameOverFontRestart = new Font("Freestyle Script", Font.PLAIN, 48);
 
-		basket = new Basket(250, 700, 100, 30);
+		basket = new Basket(250, 700, Basket.WIDTH, Basket.HEIGHT);
 
 		manager = new ObjectManager(basket);
 	}
 
 	void startGame() {
+		basket = new Basket(250, 700, Basket.WIDTH, Basket.HEIGHT);
+		// System.out.println("hello");
+		manager = new ObjectManager(basket);
+		counter = GAME_TIME;
 		timer.start();
 	}
 
@@ -220,9 +224,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 55, (int) barWidth, 5);
 	}
 
-	//left off here 3/26/20
 	void drawPie(Graphics g) {
-		g.drawImage(GamePanel.pieTin, 0, 0, basket._width, basket._height, null);
+		g.drawImage(GamePanel.pieTin, basket._x++, basket._y, basket._width, basket._height, null);
 	}
 
 	void drawEndState(Graphics g) {
@@ -264,9 +267,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (code == KeyEvent.VK_ENTER) {
 
 			if (currentState == END_STATE) {
-				basket = new Basket(250, 700, 50, 50);
-				// System.out.println("hello");
-				manager = new ObjectManager(basket);
+				
+			}
+			else if (currentState == MENU_STATE) {
+				startGame();
 			}
 			currentState++;
 		}
